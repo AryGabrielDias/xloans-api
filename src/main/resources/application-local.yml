@@ -1,0 +1,21 @@
+db:
+  host: mysql-docker-container
+  port: 3306
+  schema: loan
+  username: root
+  password: root
+
+# The SQL dialect makes Hibernate generate better SQL for the chosen database
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      dialect: org.hibernate.dialect.MySQLInnoDBDialect
+    show-sql: true
+  datasource:
+    validationQuery: SELECT 1
+
+server.port: 8080
+
+logging.level:
+  br.com.srm: DEBUG
