@@ -1,4 +1,4 @@
-# school-registration-api
+# xloans-api
 
 For building and running the application you need:
 
