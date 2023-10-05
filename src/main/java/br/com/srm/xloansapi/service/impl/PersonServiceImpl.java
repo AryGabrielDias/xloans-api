@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +37,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public PersonDTO savePerson(SavePersonDTO savePersonDTO) throws BusinessStudentRuleException, BusinessRetireeRuleException, InvalidIdentificationException {
 
         var personDto = new PersonDTO();
@@ -57,6 +59,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public PersonDTO updatePerson(SavePersonDTO updatePersonDTO) throws BusinessStudentRuleException, BusinessRetireeRuleException, InvalidIdentificationException {
         var personDto = new PersonDTO();
 
@@ -77,6 +80,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public List<PersonDTO> getAllPersons() {
 
         var personsDtoList = new ArrayList<PersonDTO>();
@@ -97,6 +101,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public Long deletePerson(Long personId) {
 
         try {
@@ -109,6 +114,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public PersonDTO getPersonById(Long personId) {
 
         var personDto = new PersonDTO();

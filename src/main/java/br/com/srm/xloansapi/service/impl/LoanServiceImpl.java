@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -28,12 +29,14 @@ public class LoanServiceImpl implements LoanService {
     private final Utils utils = new Utils();
 
     @Autowired
+
     public LoanServiceImpl(LoanRepository loanRepository, PersonRepository personRepository) {
         this.loanRepository = loanRepository;
         this.personRepository = personRepository;
     }
 
     @Override
+    @Transactional
     public LoanOperationDTO saveLoan(SaveLoanDTO saveLoanDTO) throws UserNotFoundException, MaximalLoanValueException, InstallmentsNumberAboveException, MinimalMonthValueException {
 
         var operationDTO = new LoanOperationDTO();
@@ -64,6 +67,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
+    @Transactional
     public LoanOperationDTO payLoan(Long loanId) throws LoanNotFoundException {
 
         var operationDTO = new LoanOperationDTO();

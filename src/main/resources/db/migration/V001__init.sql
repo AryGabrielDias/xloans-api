@@ -13,7 +13,7 @@ CREATE TABLE emprestimo (
     id  bigint NOT NULL AUTO_INCREMENT,
     id_pessoa bigint NOT NULL,
     valor_emprestimo decimal(18,4) NOT NULL,
-    numero_parcelas integer NOT NULL
+    numero_parcelas integer NOT NULL,
     status_pagamento varchar(50) NOT NULL,
     data_criacao datetime NOT NULL,
     PRIMARY KEY (id),

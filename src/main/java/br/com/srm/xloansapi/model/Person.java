@@ -8,7 +8,9 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "pessoa", uniqueConstraints = {@UniqueConstraint(columnNames = "id")})
+@Table(name = "pessoa",
+        schema = "loans",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "id")})
 @Getter
 @Setter
 public class Person {
@@ -35,7 +37,7 @@ public class Person {
     @Column(name = "valor_max_emprestimo", nullable = false, unique = true)
     private Double maximalLoanValue;
 
-    @OneToMany(mappedBy = "pessoa")
+    @OneToMany(mappedBy = "person")
     private Set<Loan> loans;
 
 
