@@ -32,7 +32,7 @@ public class LoanController {
     @Operation(summary = "Contract new Loan", description = "Contract new Loan")
     @ApiResponse(responseCode = "200", description = "OK",
         content = @Content(schema = @Schema(implementation = LoanOperationDTO.class)))
-    public ResponseEntity<LoanOperationDTO> takeOutALoan(@RequestBody SaveLoanDTO saveLoanDTO) throws UserNotFoundException, MaximalLoanValueException, InstallmentsNumberAboveException, MinimalMonthValueException {
+    public ResponseEntity<LoanOperationDTO> takeOutALoan(@RequestBody SaveLoanDTO saveLoanDTO) throws UserNotFoundException, MaximalLoanValueException, InstallmentsNumberAboveException, MinimalMonthValueException, BusinessStudentRuleException, BusinessRetireeRuleException {
         return new ResponseEntity<>(loanService.saveLoan(saveLoanDTO), HttpStatus.CREATED);
     }
 

@@ -66,7 +66,7 @@ public class PersonServiceImpl implements PersonService {
         if (utils.isValidIdentification(
                 updatePersonDTO.getIdentification().length())) {
 
-            this.validateRules(updatePersonDTO.getIdentification());
+
 
             var person = utils.saveDtoToEntity(updatePersonDTO);
             personDto = utils.entityToDto(personRepository.saveAndFlush(person));

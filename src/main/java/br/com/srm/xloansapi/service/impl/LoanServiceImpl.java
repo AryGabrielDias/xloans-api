@@ -37,7 +37,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     @Transactional
-    public LoanOperationDTO saveLoan(SaveLoanDTO saveLoanDTO) throws UserNotFoundException, MaximalLoanValueException, InstallmentsNumberAboveException, MinimalMonthValueException {
+    public LoanOperationDTO saveLoan(SaveLoanDTO saveLoanDTO) throws UserNotFoundException, MaximalLoanValueException, InstallmentsNumberAboveException, MinimalMonthValueException, BusinessStudentRuleException, BusinessRetireeRuleException {
 
         var operationDTO = new LoanOperationDTO();
 
@@ -47,6 +47,9 @@ public class LoanServiceImpl implements LoanService {
             throw new UserNotFoundException();
         }
         else {
+
+            this.validateRules(person.getIdentification());
+
             if (saveLoanDTO.getLoanValue() > person.getMaximalLoanValue()) {
                 throw new MaximalLoanValueException();
             }
@@ -91,5 +94,19 @@ public class LoanServiceImpl implements LoanService {
         }
 
         return operationDTO;
+    }
+
+    private void validateRules(String identification) throws BusinessStudentRuleException, BusinessRetireeRuleException {
+        if (utils.isUniversityStudent(identification.length())) {
+            if (!utils.validateStudentRule(identification)) {
+                throw new BusinessStudentRuleException();
+            }
+        }
+
+        if (utils.isRetiree(identification.length())) {
+            if (utils.validateRetireeRule(identification)) {
+                throw new BusinessRetireeRuleException();
+            }
+        }
     }
 }

@@ -35,7 +35,7 @@ public class LoanServiceImplTest {
     private final Utils utils = new Utils();
 
     @Test
-    public void should_returnOperationDTO_when_saveLoanIsCalled() throws UserNotFoundException, MaximalLoanValueException, InstallmentsNumberAboveException, MinimalMonthValueException {
+    public void should_returnOperationDTO_when_saveLoanIsCalled() throws UserNotFoundException, MaximalLoanValueException, InstallmentsNumberAboveException, MinimalMonthValueException, BusinessStudentRuleException, BusinessRetireeRuleException {
         var saveLoanDTO = new SaveLoanDTO();
         saveLoanDTO.setId(1L);
         saveLoanDTO.setPersonId(1L);
@@ -116,6 +116,52 @@ public class LoanServiceImplTest {
     public void should_throwLoanNotFoundException_when_payLoanIsCalled() {
         assertThrows(LoanNotFoundException.class, () ->
                 loanService.payLoan(null));
+    }
+
+    @Test
+    public void should_throwBusinessStudentRuleException_when_saveLoanIsCalled() {
+        var saveLoanDTO = new SaveLoanDTO();
+        saveLoanDTO.setId(1L);
+        saveLoanDTO.setPersonId(1L);
+        saveLoanDTO.setInstallmentsNumber(5);
+        saveLoanDTO.setLoanValue(1000.00);
+
+        var person = new Person();
+        person.setId(1L);
+        person.setName("Usuario EU");
+        person.setIdentification("12341237");
+        person.setBirthDate(LocalDateTime.now());
+        person.setIdentifierType("EU");
+        person.setMinimalMonthValue(100.00);
+        person.setMaximalLoanValue(10000.00);
+
+        when(personRepository.findByPersonId(1L)).thenReturn(person);
+
+        assertThrows(BusinessStudentRuleException.class, () ->
+                loanService.saveLoan(saveLoanDTO));
+    }
+
+    @Test
+    public void should_throwBusinessRetireeRuleException_when_saveLoanIsCalled() {
+        var saveLoanDTO = new SaveLoanDTO();
+        saveLoanDTO.setId(1L);
+        saveLoanDTO.setPersonId(1L);
+        saveLoanDTO.setInstallmentsNumber(5);
+        saveLoanDTO.setLoanValue(1000.00);
+
+        var person = new Person();
+        person.setId(1L);
+        person.setName("Usuario AP");
+        person.setIdentification("1234512345");
+        person.setBirthDate(LocalDateTime.now());
+        person.setIdentifierType("AP");
+        person.setMinimalMonthValue(400.00);
+        person.setMaximalLoanValue(25000.00);
+
+        when(personRepository.findByPersonId(1L)).thenReturn(person);
+
+        assertThrows(BusinessRetireeRuleException.class, () ->
+                loanService.saveLoan(saveLoanDTO));
     }
 
     @Test
